@@ -1,59 +1,46 @@
 #include <iostream>
-using namespace std;
+#include <memory>
 #include "TcpServerController.h"
 #include "TcpClientDataBaseManager.h"
 #include "TcpClientServiceManager.h"
 #include "TcpNewConnectionAcceptor.h"
 #include "network_utils.h"
-#include "TCpClient.h"
 
-static void prirnt_client(const tcp_client *tcpclient)
+static void print_client(const tcp_client* tcpclient)
 {
-
-    /*The htons function is used to convert a 16-bit (2-byte) short 
-    
-    integer value from host byte order to network byte order.*/
-
-    /*The htonl function, is used to convert a 32-bit (4-byte) 
-    long integer value from host byte order to network byte order.*/
-
-    printf("[%s,%d]\n",network_convert_ip_n_to_p(htonl(tcpclient->ip_addr),0),htons(tcpclient->port_number));
-
+    std::cout << "[" << network_convert_ip_n_to_p(htonl(tcpclient->ip_addr), 0) << "," << htons(tcpclient->port_number) << "]" << std::endl;
 }
 
-static void prirnt_server(const TcpServerController *tcpserver)
+static void print_server(const TcpServerController* tcpserver)
 {
-
-    printf("[%s,%d]\n",network_convert_ip_n_to_p(htonl(tcpserver->ip_addr),0),htons(tcpserver->no_port));
-
+    std::cout << "[" << network_convert_ip_n_to_p(htonl(tcpserver->ip_addr), 0) << "," << htons(tcpserver->no_port) << "]" << std::endl;
 }
-static void app_client_connected(const TcpServerController* tcp_server, const tcp_client* tcpclient)
+
+static void app_client_connected(const TcpServerController *tcp_server, const tcp_client * tcpclient)
 {
-    prirnt_server(tcp_server);
-    prirnt_client(tcpclient);
-    printf("app_Client : Client Connected");
-
+    print_server(tcp_server);
+    print_client(tcpclient);
+    std::cout << "app_Client : Client Connected" << std::endl;
 }
-static void app_client_disconnected(const TcpServerController* , const tcp_client* )
+
+static void app_client_disconnected(const TcpServerController * , const tcp_client *)
 {
-
+    // Do nothing for now.
 }
+
 static void client_msg_rsvd(const TcpServerController* , const tcp_client*, unsigned char *, uint16_t)
 {
-
+    // Do nothing for now.
 }
-int main(int argc, char **argv)
+
+int main()
 {
     // Create an instance of class TcpServerController.
-   // std::cout << "Just Test" <<endl;
-    TcpServerController *server_controller = new TcpServerController("127.0.0.1",30000, "Default Siwar");
-    //std::cout << "001 Just Test" <<endl;
+    std::unique_ptr<TcpServerController> server_controller = std::make_unique<TcpServerController>("127.0.0.1", 40000, "Default Siwar");
     // Call the start method.
     server_controller->setServerNotificationCallbacks(app_client_connected, app_client_disconnected, client_msg_rsvd);
     server_controller->start();
-   // std::cout << "002 Just Test" <<endl;
-    scanf("\n");
-    //cout << "Just Test" <<endl;
     server_controller->Display();
+
     return 0;
 }

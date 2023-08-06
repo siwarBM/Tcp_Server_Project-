@@ -16,21 +16,21 @@ using namespace std;
 // TcpServerController Constructor.
 TcpServerController::TcpServerController(std::string ip_addr, uint16_t port_number, std::string name)
 {
-    //std::cout << "start tcp server controller" << endl;
+    std::cout << "start tcp server controller" << endl;
     this->ip_addr = network_covert_ip_p_to_n(ip_addr.c_str());
-    //std::cout << "001 start tcp server controller" << endl;
+    std::cout << "this->ip_addr=" << this->ip_addr << endl;
     this->no_port = port_number;
-    //std::cout << "002 start tcp server controller" << endl;
+    std::cout << "this->no_port= " << this->no_port << endl;
     this->name = name;
 
-    //std::cout << "003 start tcp server controller" << endl;
+    std::cout << "name="<< this->name << endl;
 
     this->tcp_client_data_base = new TcpClientDataBaseManager(this);
-    //std::cout << "004 start tcp server controller" << endl;
+    std::cout << "this->tcp_client_data_base" << endl;
     this->tcp_new_connexion_acc = new TcpNewConnectionAcceptor(this);
-    //std::cout << "005 start tcp server controller" << endl;
+    std::cout << "this->tcp_new_connexion_acc" << endl;
     this->tcp_service_manager = new TcpClientServiceManager(this);
-    //std::cout << "006 start tcp server controller" << endl;
+    std::cout << "this->tcp_service_manager" << endl;
 }
 
 void TcpServerController::start()
@@ -60,8 +60,11 @@ TcpServerController::ProcessNewClient(tcp_client *tcpclient)
     /* Tcpservercontroller has to request the client data manager.
       to store this new data client object. In the Internal dataBase.
     */
+   
+    printf("Process NewClient\n");
     this->tcp_client_data_base->AddClinetToDataBase(tcpclient);
-
+    
+    printf(" Manager must Start Listen\n");
     // Manager must to start listeining in the communication socket of the new tcpclient.
     this->tcp_service_manager->ClientFDStartListen(tcpclient);
 }
@@ -82,6 +85,8 @@ void TcpServerController::Display()
 {
     /*tcp_client *tcpclient;
     std::list<tcp_client *>::iterator it;*/
+    //printf("**Display start***");
+    //std::cout <<"start listening on "<< network_convert_ip_n_to_p(this->ip_addr,0) << endl;
     setbuf(stdout, NULL);
     printf("Server Name %s\n", this->name.c_str());
     setbuf(stdout, NULL);
@@ -89,5 +94,9 @@ void TcpServerController::Display()
 
     this->tcp_client_data_base->DisplayClientDataBase();
 
+}
+TcpServerController::~TcpServerController() {
+    // Destructor implementation
+    // Clean up any resources, if needed
 }
 // Note : This application involve multiClient Connexion.
