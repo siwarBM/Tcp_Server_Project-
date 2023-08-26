@@ -21,7 +21,7 @@ void TcpClientDataBaseManager::StartClientDataBaseInit()
 }
 void TcpClientDataBaseManager::AddClinetToDataBase(tcp_client *tcpclient)
 {
-    printf("push_back NewClient\n");
+    std::cout << "push_back NewClient"<< std::endl;
     this->tcp_client_db.push_back(tcpclient);
 
 }

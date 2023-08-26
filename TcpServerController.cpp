@@ -45,9 +45,7 @@ void TcpServerController::start()
     //std::cout << "002 starting function"<<endl;
     this->tcp_client_data_base->StartClientDataBaseInit();
     //std::cout << "003 starting function **"<<endl;
-    setbuf(stdout, NULL);
-    printf ("Tcp Server is Up and Running [%s, %d]\nOk.\n",
-        network_convert_ip_n_to_p(this->ip_addr, 0), this->no_port);
+    std::cout << "Tcp Server is Up and Running " << network_convert_ip_n_to_p(this->ip_addr, 0) << "port no " << this->no_port << std::endl;
     }
 
 // Make TCP Server listen to make new connection.
@@ -61,10 +59,10 @@ TcpServerController::ProcessNewClient(tcp_client *tcpclient)
       to store this new data client object. In the Internal dataBase.
     */
    
-    printf("Process NewClient\n");
+    std::cout << "Process NewClient" << std::endl;
     this->tcp_client_data_base->AddClinetToDataBase(tcpclient);
     
-    printf(" Manager must Start Listen\n");
+    std::cout << " Manager must Start Listen" << std::endl;
     // Manager must to start listeining in the communication socket of the new tcpclient.
     this->tcp_service_manager->ClientFDStartListen(tcpclient);
 }
@@ -83,15 +81,9 @@ TcpServerController::setServerNotificationCallbacks(
     }
 void TcpServerController::Display()
 {
-    /*tcp_client *tcpclient;
-    std::list<tcp_client *>::iterator it;*/
-    //printf("**Display start***");
-    //std::cout <<"start listening on "<< network_convert_ip_n_to_p(this->ip_addr,0) << endl;
-    setbuf(stdout, NULL);
-    printf("Server Name %s\n", this->name.c_str());
-    setbuf(stdout, NULL);
-    printf("Listening on : [%s, %d]\n", network_convert_ip_n_to_p(this->ip_addr,0),this->no_port);
 
+    std::cout << "Server Name " << this->name.c_str() << std::endl;
+    std::cout << "Listening on : " << network_convert_ip_n_to_p(this->ip_addr,0) << " port no " << this->no_port << std::endl;
     this->tcp_client_data_base->DisplayClientDataBase();
 
 }

@@ -1,5 +1,6 @@
 #include "TcpClientServiceManager.h"
 #include "TcpServerController.h"
+#include <iostream>
 
 // Define the constructor for TcpClientServiceManager.
 TcpClientServiceManager::TcpClientServiceManager(TcpServerController
@@ -19,5 +20,5 @@ void TcpClientServiceManager::StartTcpClientServiceManagerThread()
 }
 void TcpClientServiceManager::ClientFDStartListen(tcp_client *tcpclient)
 {
-     printf("do nothing need to implement it\n");
+     std::cout << "do nothing need to implement it" << std::endl;
 }

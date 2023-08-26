@@ -98,7 +98,7 @@ void TcpNewConnectionAcceptor::StartTcpNewConnectionAcceptorThreadInternal()
     // Set the listening socket to non-blocking mode using ioctlsocket
     u_long mode = 1;
     ioctlsocket(this->accept_filed, FIONBIO, &mode);
-        printf("listen API execute succ\n");
+        std::cout <<"listen API execute succ" << std::endl;
         struct sockaddr_in client_addr;
         socklen_t addr_len = sizeof(client_addr);
         SOCKET comm_sock_fd;
